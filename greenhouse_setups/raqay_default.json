@@ -1,0 +1,35 @@
+{
+    "gh_length": 10,
+    "gh_width": 10,
+    "gh_height": 2,
+
+    "gh_roof_area": null,
+    "h_conv": 22.0,
+    "plant_transpiration_rate": 0.0001,
+    "nr_water_bottles": 0,
+
+    "top_vent_rate": 5,
+    "vent_rate": 0.3,
+    
+    "thermal_mass": 547,
+    "thermal_mass_top": 547,
+    
+    "soil_depth": 1,
+    "soil_conduct": 0.4,
+    "soil_cp": 800,
+    "soil_density": 1200,
+
+
+    "wall_solar_absorp_coef": 17,
+    "wall_conductivity": 0.3,
+    "wall_thickness": 0.3,
+    "wall_emissivity": 0.9,
+    "wall_cp": 837,
+    "wall_rho": 1850, 
+
+
+    "roof_solar_absorp_coef": 112,
+    "roof_conductivity": 0.33,
+    "roof_thickness": 0.001,
+    "roof_emissivity": 0.9
+}

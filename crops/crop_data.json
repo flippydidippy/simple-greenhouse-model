@@ -1,0 +1,48 @@
+{
+    "lettuce": {
+      "T_base": 5,
+      "T_opt": 15,
+      "RUE": 2.0,
+      "CO2_response": 0.15,
+      "ideal_RH": 60,
+      "RH_sensitivity": "high",
+      "GDD_maturity": 900
+    },
+    "tomato": {
+      "T_base": 10,
+      "T_opt": 24,
+      "RUE": 2.5,
+      "CO2_response": 0.10,
+      "ideal_RH": 70,
+      "RH_sensitivity": "moderate",
+      "GDD_maturity": 1200
+    },
+    "cucumber": {
+      "T_base": 10,
+      "T_opt": 26,
+      "RUE": 3.0,
+      "CO2_response": 0.12,
+      "ideal_RH": 75,
+      "RH_sensitivity": "low",
+      "GDD_maturity": 1100
+    },
+    "wheat": {
+      "T_base": 0,
+      "T_opt": 18,
+      "RUE": 2.2,
+      "CO2_response": 0.20,
+      "ideal_RH": 50,
+      "RH_sensitivity": "high",
+      "GDD_maturity": 1500
+    },
+    "pepper": {
+      "T_base": 11,
+      "T_opt": 25,
+      "RUE": 2.8,
+      "CO2_response": 0.09,
+      "ideal_RH": 65,
+      "RH_sensitivity": "moderate",
+      "GDD_maturity": 1300
+    }
+  }
+  
