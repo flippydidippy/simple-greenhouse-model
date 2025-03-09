@@ -1,35 +1,38 @@
 {
-    "gh_length": 10,
-    "gh_width": 10,
-    "gh_height": 2,
+    "gh_length": 8,
+    "gh_width": 8.38,
+    "gh_height": 1.51,
 
-    "gh_roof_area": null,
+    "gh_roof_height": null,
     "h_conv": 22.0,
     "plant_transpiration_rate": 0.0001,
-    "nr_water_bottles": 0,
+    "nr_water_bottles": 44.89,
+    "bottles_percent_open": 0.345,
 
-    "top_vent_rate": 5,
-    "vent_rate": 0.3,
+    "top_vent_rate": 0.015,
+    "vent_rate": 0.00024,
     
     "thermal_mass": 547,
     "thermal_mass_top": 547,
     
-    "soil_depth": 1,
+    "soil_depth": 0.2,
     "soil_conduct": 0.4,
     "soil_cp": 800,
     "soil_density": 1200,
 
 
-    "wall_solar_absorp_coef": 17,
-    "wall_conductivity": 0.3,
+    "wall_solar_absorp_coef": 0.01,
+    "wall_conductivity": 0.85,
     "wall_thickness": 0.3,
     "wall_emissivity": 0.9,
     "wall_cp": 837,
     "wall_rho": 1850, 
 
 
-    "roof_solar_absorp_coef": 112,
+    "roof_solar_absorp_coef": 0.02989982239804348,
     "roof_conductivity": 0.33,
     "roof_thickness": 0.001,
-    "roof_emissivity": 0.9
+    "roof_emissivity": 0.9,
+    "roof_cp": 1500,
+    "roof_rho": 1000
 }

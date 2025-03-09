@@ -3,8 +3,9 @@ from components.moisture import cp_water_calc
 from components.const import CP_WATER
 from components.radiation import radiation_loss_calc
 from components.walls import conduction_calc
+from components.const import BOTTLE_EVAP_RATE_HOLE, LV
 
-def bottle_heat_exchange(T_top, T_bottle, bottle_mass, bottle_area, h_bottle, dt):
+def bottle_heat_exchange(T_top, T_bottle, bottle_mass, bottle_area, percent_open, h_bottle, dt):
     """
     Computes conductive, convective, and radiative heat exchange between air and hanging water bottles.
 
@@ -28,9 +29,10 @@ def bottle_heat_exchange(T_top, T_bottle, bottle_mass, bottle_area, h_bottle, dt
         Q_convection = h_bottle * bottle_area * (T_top - T_bottle)
         Q_radiation = radiation_loss_calc(T_bottle, T_top, EMISSITIVITY, bottle_area)
         Q_conduction = conduction_calc(T_top, T_bottle, K_BOTTLE, THICKNESS, bottle_area)
+        Q_evap = BOTTLE_EVAP_RATE_HOLE*LV*percent_open*bottle_mass
         #print(Q_radiation, Q_convection, Q_conduction)
 
-        Q_total = Q_convection + Q_conduction - Q_radiation  
+        Q_total = Q_convection + Q_conduction - Q_radiation - Q_evap  
 
         # Compute new bottle temperature
         M_bottle = bottle_mass * CP_WATER  # Effective thermal mass

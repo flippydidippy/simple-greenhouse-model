@@ -16,10 +16,10 @@ def optimize_params():
     # Define parameter bounds for optimization (lower bound, upper bound)
     param_bounds = {
         #"h_conv": (20, 25),  # Convective heat transfer coefficient
-        "wall_solar_absorp_coef": (0, 100),  # Solar radiation absorption fraction
-        "roof_solar_absorp_coef": (0, 1000),  # Solar radiation absorption fraction
-        "vent_rate": (0, 100),  # Air exchange rate
-        "top_vent_rate": (0, 100),
+        "wall_solar_absorp_coef": (0, 0.2),  # Solar radiation absorption fraction
+        "roof_solar_absorp_coef": (0, 0.5),  # Solar radiation absorption fraction
+        "vent_rate": (0, 0.1),  # Air exchange rate
+        "top_vent_rate": (0, 0.1),
         #"thermal_mass": (0, 10000),
         #"thermal_mass_top": (0, 10000)
         #"plant_transpiration_rate": (0.0001, 0.1),  # Transpiration effect on humidity
@@ -31,7 +31,7 @@ def optimize_params():
 
 
     # run opt
-    result = differential_evolution(objective_function, bounds, strategy="best1bin", popsize=15, tol=0.1)
+    result = differential_evolution(objective_function, bounds, strategy="best1bin", popsize=30, tol=0.001)
 
     # params extract
     optimal_params = {list(param_bounds.keys())[i]: result.x[i] for i in range(len(result.x))}

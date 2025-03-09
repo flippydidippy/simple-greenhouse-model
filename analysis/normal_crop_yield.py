@@ -20,6 +20,7 @@ def normal_crop_yield(file_path, crop):
     radiation_MJ_24h = 0
     crop_mass = 0
     TT = 0
+    total_crop_mass = 0
 
     for i in range(len(weather_data)): # run the simualtion for the whole data set
         T_ext = weather_data.loc[i, "temperature"]
@@ -42,7 +43,10 @@ def normal_crop_yield(file_path, crop):
             T_max, T_min, T_mean = max(T_air_24), min(T_air_24), np.mean(T_air_24)
             crop_mass, TT = compute_crop_growth(crop_mass, TT, radiation_MJ_24h, T_mean, T_base, T_opt, T_max, T_heat, T_extreme, I50A, RUE, 400, SCO2)
             if TT >= T_sum:
-                TT, crop_mass = 0, 0.01
+                #print("MATURED", crop_mass)
+
+                total_crop_mass += crop_mass
+                TT, crop_mass = 0, 0 
                 cycles += 1
                 #print("MATURED")
             
@@ -54,5 +58,6 @@ def normal_crop_yield(file_path, crop):
         temps.append(T_ext)
 
     cycles += TT/T_sum
+    total_crop_mass += crop_mass
 
-    return cycles
+    return cycles, total_crop_mass

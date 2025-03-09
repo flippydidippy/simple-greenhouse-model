@@ -63,7 +63,7 @@ def validate_simulation(data_path, params_dict=None):
     T_top_init = merged_df["top_temp"].dropna().iloc[0]  
     RH_init = merged_df["humidity"].dropna().iloc[0]  
 
-    simulated_data, cycles = run_simulation(merged_df, T_air_init, T_top_init, RH_init, "Lettuce", 3600, "raqay_default.json", params_dict) # run sim
+    simulated_data, cycles, crop_mass = run_simulation(merged_df, T_air_init, T_top_init, RH_init, "Lettuce", 3600, "suticollo_opt1.json", params_dict) # run sim
     #simulated_data.to_csv("data/raqaypampa/simulated_greenhouse_suticollo_2025.csv", index=False)
 
 

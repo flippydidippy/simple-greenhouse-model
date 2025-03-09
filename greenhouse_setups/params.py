@@ -10,7 +10,7 @@ def calc_dimensions(l, w, h, roof_h):
     if roof_h:
         roof_area = arch_greenhouse_area(roof_h, gh_length, gh_width)
         roof_volume = arch_greenhouse_volume(roof_h, gh_length, gh_length)
-        print(roof_area, roof_volume, wall_area, volume)
+        #print(roof_area, roof_volume, wall_area, volume)
     else:
         roof_area = l * w
         roof_volume = volume/10
@@ -54,7 +54,7 @@ def update_defaults(new_params):
     calc_dimensions(gh_length, gh_width, gh_height, gh_roof_height)
 
 def update_params(new_params):
-    global h_conv, vent_rate, top_vent_rate, plant_transpiration_rate, soil_depth, soil_conduct, thermal_mass, thermal_mass_top, soil_density, soil_cp, nr_water_bottles
+    global h_conv, vent_rate, top_vent_rate, plant_transpiration_rate, soil_depth, soil_conduct, thermal_mass, thermal_mass_top, soil_density, soil_cp, nr_water_bottles, bottles_percent_open
 
     h_conv = new_params.get("h_conv", h_conv)
     vent_rate = new_params.get("vent_rate", vent_rate)
@@ -62,6 +62,7 @@ def update_params(new_params):
     plant_transpiration_rate = new_params.get("plant_transpiration_rate", plant_transpiration_rate)
 
     nr_water_bottles = new_params.get("nr_water_bottles", nr_water_bottles)
+    bottles_percent_open = new_params.get("bottles_percent_open", bottles_percent_open)
     thermal_mass = new_params.get("thermal_mass", thermal_mass)
     thermal_mass_top = new_params.get("thermal_mass_top", thermal_mass_top)
 
@@ -116,6 +117,7 @@ plant_transpiration_rate = 0  # Effect of plants on humidity
 
 
 nr_water_bottles = 0
+bottles_percent_open = 0
 thermal_mass = 0  # Represents greenhouse's ability to store heat
 thermal_mass_top = 0  # Represents greenhouse's ability to store heat
 

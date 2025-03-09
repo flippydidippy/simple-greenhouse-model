@@ -19,7 +19,7 @@ from analysis.normal_crop_yield import normal_crop_yield
 # weather_data = compile_nrel_data(file_path)
 # T_init = weather_data["temperature"][0] #init temp
 # RH_init = weather_data["humidity"][0] #init temp
-# simulated_data = run_simulation(weather_data, T_init, T_init, RH_init, 3600, "suticollo_opt1.json") # full year simulation
+# simulated_data, _, _ = run_simulation(weather_data, T_init, T_init, RH_init, 3600, "suticollo_opt1.json") # full year simulation
 
 
 
@@ -37,26 +37,31 @@ from analysis.normal_crop_yield import normal_crop_yield
 # sys.exit(app.exec())
 
 
-# for date in ["2025-02-11", "2025-02-12", "2025-02-13","2025-02-14", "2025-02-15", "2025-02-16", "2025-02-17", "2025-02-18", "2025-02-19"]:
-#    plot_parameters(data, ["GH_T_air", "GH_T_top", "GH_T_ground", "GH_T_wall_ext", "GH_T_wall_int", "air_temp", "outside_temp", "top_temp"], date)
-# plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-15")
+# # for date in ["2025-02-11", "2025-02-12", "2025-02-13","2025-02-14", "2025-02-15", "2025-02-16", "2025-02-17", "2025-02-18", "2025-02-19"]:
+# #    plot_parameters(data, ["GH_T_air", "GH_T_top", "GH_T_ground", "GH_T_wall_ext", "GH_T_wall_int", "air_temp", "outside_temp", "top_temp"], date)
+# # plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-15")
 
 
-# # opt_params, data = optimize_params()
+# opt_params, data = optimize_params()
 # data = validate_simulation("data/validate_data/")
 
 # print(rmse_for_validation(data))
 
 # for date in ["2025-02-11", "2025-02-12", "2025-02-13","2025-02-14", "2025-02-15", "2025-02-16", "2025-02-17", "2025-02-18", "2025-02-19"]:
 #    plot_parameters(data, ["GH_T_air", "GH_T_top", "GH_T_ground", "GH_T_wall_ext", "GH_T_wall_int", "air_temp", "outside_temp", "top_temp"], date)
-# plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-11")
+#    daily_data = data[data["time"].dt.date == pd.to_datetime(date).date()]
+#    print(rmse_for_validation(daily_data))
+
+
+# plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-12")
+
 
 # param_file = "greenhouse_setups/suticollo_opt1.json"
 # run_visualizer(param_file, data)
 
 
 #simulate suticollo house in raqaypampa
-# simulated_data, _ = simulate_greenhouse_raqaypampa(2023, "Carrot", "suticollo_opt1.json")
+# simulated_data, _ = simulate_greenhouse_raqaypampa(2023, "Lettuce", "raqay_default.json")
 
 # simulated_data.to_csv("data/raqaypampa/simulated_greenhouse_2023.csv", index=False)
 # print(simulated_data.head())
@@ -69,13 +74,53 @@ from analysis.normal_crop_yield import normal_crop_yield
 # param_file = "greenhouse_setups/suticollo_opt1.json"
 # run_visualizer(param_file, simulated_data)
 
+# crop = "Lettuce"
+# crop_yield, total_crop = normal_crop_yield("data/raqaypampa/2023.csv", crop)
+# print(crop_yield, total_crop)
 
-crop_yield = normal_crop_yield("data/raqaypampa/2023.csv", "Lettuce")
-print(crop_yield)
-
-# b_param = optimize_greenhouse_design("2023", crop="Lettuce")
+# b_param = optimize_greenhouse_design("2023", crop)
+# _, cycles, crop_yield = simulate_greenhouse_raqaypampa("2023", crop, None, b_param)
 # print(b_param)
 
+# import json
+
+# save_values = {}
+
+# for optimizing in ["crop_mass", "cycle", "Minmax"]:
+#    save_values[optimizing] = {}
+#    for crop in ["Lettuce", "Tomato", "Potato", "Maize", "Cassava", "Carrot", "Greenbean", "Chard", "Parsley", "Wheat", "Barley", "Beans", "Peas", "Squash", "Quinoa"]:
+#       save_values[optimizing][crop] = {}
+
+#       normal_cycles, total_crop_normal = normal_crop_yield("data/raqaypampa/2023.csv", crop)
+#       b_param = optimize_greenhouse_design("2023", crop, optimizing)
+#       _, cycles, crop_yield = simulate_greenhouse_raqaypampa("2023", crop, None, b_param)
+
+#       save_values[optimizing][crop]["normal_cycles"] = normal_cycles
+#       save_values[optimizing][crop]["total_crop_normal"] = total_crop_normal
+#       save_values[optimizing][crop]["cycles"] = cycles
+#       save_values[optimizing][crop]["crop_yield"] = crop_yield
+#       save_values[optimizing][crop]["b_param"] = b_param
+
+#       print(save_values)
+#       with open('opt.json', 'w') as f:
+#          json.dump(save_values, f)
+
+# print(save_values)
+
+for crop in ["Lettuce", "Tomato", "Potato", "Maize", "Cassava", "Carrot", "Greenbean", "Chard", "Parsley", "Wheat", "Barley", "Beans", "Peas", "Squash", "Quinoa"]:
+   normal_cycles, total_crop_normal = normal_crop_yield("data/raqaypampa/2023.csv", crop)
+   print(normal_cycles, total_crop_normal)
+
+
+
+
+# Tomato:
+# 1.2002532679738562 21.201642101202715
+# Trying Parameters: {'nr_water_bottles': np.float64(5.93013335930079), 'bottles_percent_open': np.float64(0.8213871390344029), 'wall_conductivity': np.float64(0.9), 'wall_thickness': np.float64(0.15), 'gh_length': np.float64(7.552509650583443), 'gh_width': np.float64(3.6517424754578647), 'gh_height': np.float64(1.50000001)}, CYCLES: 2.0000, CROP MASS 203.8133
+
+# Lettuce:
+# 3.2776875 420.7564518765578
+#Trying Parameters: {'nr_water_bottles': np.float64(24.19723978120133), 'bottles_percent_open': np.float64(0.1266852498001711), 'wall_conductivity': np.float64(0.9), 'wall_thickness': np.float64(0.19867650402684234), 'gh_length': np.float64(9.658709311488328), 'gh_width': np.float64(8.267565895753739), 'gh_height': np.float64(1.50000001)}, CYCLES: 8.4225, CROP MASS 381.8326
 
 # Potato: 
 
