@@ -1,0 +1,34 @@
+{
+    "crop_mass": {
+        "Lettuce": {
+            "normal_cycles": 3.2776875,
+            "total_crop_normal": 420.7564518765578,
+            "cycles": 0,
+            "crop_yield": 0,
+            "b_param": {
+                "nr_water_bottles": 46.39437359452066,
+                "bottles_percent_open": 0.0710889060599939,
+                "wall_thickness": 0.17565863751057625,
+                "gh_length": 8.233115349274469,
+                "gh_width": 4.7312209758933585,
+                "gh_height": 3.569427047297645,
+                "gh_roof_height": 0.277044112078054
+            }
+        },
+        "Tomato": {
+            "normal_cycles": 1.2002532679738562,
+            "total_crop_normal": 201.9004111247868,
+            "cycles": 0,
+            "crop_yield": 0,
+            "b_param": {
+                "nr_water_bottles": 19.173929606267954,
+                "bottles_percent_open": 0.926669761026748,
+                "wall_thickness": 0.22740024676763082,
+                "gh_length": 8.761219742590022,
+                "gh_width": 7.347782779028844,
+                "gh_height": 1.8165662893360188,
+                "gh_roof_height": 0.3787448591106697
+            }
+        }
+    }
+}

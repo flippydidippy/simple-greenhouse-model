@@ -11,6 +11,7 @@ from components.plants import humidity_effect
 from components.hydroponic import hydroponic_pipe_cooling
 from components.thermal_mass import thermal_mass_calc
 from components.bottles import bottle_heat_exchange
+from components.solar import solar_position, projected_irradiance
 
 def update_cycle(T_ext, T_top, T_air, 
                     T_ground, T_wall_ext, T_wall_int, T_bottle, 
@@ -43,11 +44,11 @@ def update_cycle(T_ext, T_top, T_air,
     tot_bottle_area = PRESET_WATER_BOTTLE_AREA*nr_water_bottles
 
     H_absolute = absolute_humidity(T_air, RH_air)
-    cp_air = CP_AIR + (H_absolute * 1860)
-    cp_water = np.clip(cp_water_calc(T_bottle), CP_WATER-20, CP_WATER+20)
-    rho_air = np.clip(rho_air_calc(pressure, T_air, RH_air),  RHO_AIR-1, RHO_AIR+1)
+    cp_air = np.clip(CP_AIR + (H_absolute * 1860), CP_AIR*0.8, CP_AIR*1.2)
+    cp_water = np.clip(cp_water_calc(T_bottle), CP_WATER*0.95, CP_WATER*1.05)
+    rho_air = np.clip(rho_air_calc(pressure, T_air, RH_air),  RHO_AIR*0.2, RHO_AIR*1.8)
 
-    rho_air_top = np.clip(rho_air_calc(pressure, T_top, RH_air), RHO_AIR-1, RHO_AIR+1)
+    rho_air_top = np.clip(rho_air_calc(pressure, T_top, RH_air), RHO_AIR*0.2, RHO_AIR*1.8)
 
     # if abs(rho_air - old_rho_air) > MAX_RHO_AIR_FLUC:
     #     rho_air = abs(rho_air - old_rho_air)/2
@@ -66,11 +67,24 @@ def update_cycle(T_ext, T_top, T_air,
 
     Q_bottle, T_bottle_new = bottle_heat_exchange(T_top, T_bottle, tot_water_mass, tot_bottle_area, bottles_percent_open, 15, dt)
 
+    # ### Solar
+    # latitude = 52.0  # Adjust to your location
+    # day_of_year = date.timetuple().tm_yday
+    # hour = date.hour + date.minute / 60
+
+    # zenith = solar_position(day_of_year, hour, latitude)
+
+    # # Assume wall tilt = 90°, roof tilt = 30°
+    # irr_wall = projected_irradiance(solar, zenith, 90)
+    # irr_roof = projected_irradiance(solar, zenith, 30)
+
+    # Q_wall_solar = irr_wall * wall_solar_absorp_coef * wall_area
+    # Q_top_solar = irr_roof * roof_solar_absorp_coef * roof_area
 
 
     #### WALLS
     # External heat transfer (outside wall surface)
-    Q_wall_solar = max(solar_rad_calc(solar*dt, wall_solar_absorp_coef, wall_area),0) #* np.sin(np.radians(solar_angle))  # Solar absorption
+    Q_wall_solar = max(solar_rad_calc(solar*(1000000/dt), wall_solar_absorp_coef, wall_area),0) #* np.sin(np.radians(solar_angle))  # Solar absorption
     Q_wall_rad_ext = radiation_loss_calc(T_wall_ext, T_ext, wall_emissivity, wall_area)  # Radiation loss to sky
     Q_wall_ext_conv = convection(T_wall_ext, T_ext, wall_conductivity, wall_area)  # Convection with external air
     Q_wall_ext_cond = conduction_calc(T_wall_ext, T_wall_int, wall_conductivity, wall_thickness, wall_area)  # Conduction from exterior to interior
@@ -98,13 +112,13 @@ def update_cycle(T_ext, T_top, T_air,
     
 
     #### TOP TEMP. BODY
-    Q_top_solar = max(solar_rad_calc(solar*dt, roof_solar_absorp_coef, roof_area) * np.cos(np.radians(solar_angle)), 0)  # Fixed projection
+    Q_top_solar = max(solar_rad_calc(solar*(1000000/dt), roof_solar_absorp_coef, roof_area) * np.cos(np.radians(solar_angle)), 0)  # Fixed projection
     Q_top_cond = conduction_calc(T_top, T_ext, roof_conductivity, roof_thickness, roof_area)  # Roof conduction
     Q_top_conv = convection(T_top, T_ext, roof_conductivity, roof_area)  # Roof convection with outside air
     Q_top_rad = radiation_loss_calc(T_top, T_ext, roof_emissivity, roof_area)  # Radiation loss to sky
-    Q_top_vent = ventilation_loss(T_top, T_ext, cp_air, rho_air_top, top_vent_rate*dt, roof_volume)
+    Q_top_vent = ventilation_loss(T_top, T_ext, cp_air, rho_air_top, top_vent_rate*(1000000/dt), roof_volume)
 
-    Q_roof_int_conv = convection(T_top, T_air, h_conv, roof_area)  # Internal convection
+    Q_roof_int_conv = convection(T_top, T_air, roof_conductivity, roof_area)  # Internal convection
     Q_roof_int_rad = radiation_loss_calc(T_top, T_air, roof_emissivity, roof_area)  # Internal radiation
 
     #### GROUND HEAT STORAGE (MULTILAYER CONDUCTION)
@@ -120,7 +134,7 @@ def update_cycle(T_ext, T_top, T_air,
     Q_air_cond = conduction_calc(T_air, T_ext, wall_conductivity, wall_thickness, wall_area)
     Q_air_conv = convection(T_air, T_ext, wall_conductivity, wall_area)
     Q_air_rad = radiation_loss_calc(T_air, T_ext, wall_emissivity, wall_area)
-    Q_air_vent = ventilation_loss(T_air, T_ext, cp_air, rho_air, vent_rate*dt, volume)
+    Q_air_vent = ventilation_loss(T_air, T_ext, cp_air, rho_air, vent_rate*(1000000/dt), volume)
 
     # Internal exchange with walls and roof
     Q_air_internal = convection(T_air, T_top, h_conv, roof_area + wall_area)
@@ -132,25 +146,22 @@ def update_cycle(T_ext, T_top, T_air,
 
 
     #### CROPS
-    latent_heat = latent_calc(plant_transpiration_rate)
+    OPEN_BOTTLE_EXPOSED_RATIO = 0.0001
+    RH_air_new = np.clip(compute_humidity_change(T_air, RH_air, T_ext, RH_ext, vent_rate*dt, plant_transpiration_rate, T_ground, solar, 0.2, T_wall_int, 0.01, wall_area+roof_area, T_bottle, tot_bottle_area*bottles_percent_open*OPEN_BOTTLE_EXPOSED_RATIO), 0.5, 100)
+    Q_latent = latent_calc(plant_transpiration_rate, RH_air, T_air)
     #cond = condensation(0.5, 0.1, 2000, 1700)
 
-
-
     # top and main
-    OPEN_BOTTLE_EXPOSED_RATIO = 0.0001
-    RH_air_new = np.clip(compute_humidity_change(T_air, RH_air, T_ext, RH_ext, vent_rate/10*dt, plant_transpiration_rate, T_ground, solar, 0.2, T_wall_int, 0.01, wall_area+roof_area, T_bottle, tot_bottle_area*bottles_percent_open*OPEN_BOTTLE_EXPOSED_RATIO), 0.5, 100)
-    Q_air_internal = convection(T_air, T_top, h_conv, ground_area)
-
     Q_top_net = Q_top_solar - (Q_top_cond + Q_top_conv + Q_top_rad + Q_top_vent + Q_roof_int_conv + Q_roof_int_rad) + Q_bottle
-    T_top_new = T_top + np.clip(dt * Q_top_net / (RHO_AIR * CP_AIR * thermal_mass_top), -MAX_T_FLUC, MAX_T_FLUC)
+    T_top_new = T_top + np.clip(dt * Q_top_net / (thermal_mass_top), -MAX_T_FLUC, MAX_T_FLUC)
 
-    Q_air_net = Q_top_solar/4 + Q_air_internal + Q_wall_int_conv + Q_wall_int_cond - (Q_air_cond + Q_air_conv + Q_air_rad + Q_air_vent + Q_ground + RH_air_new) + Q_bottle/4 #+ latent_heat
-    T_air_new = T_air + np.clip(dt * Q_air_net / (RHO_AIR * CP_AIR * thermal_mass_mid), -MAX_T_FLUC, MAX_T_FLUC)
+    Q_air_net = Q_top_solar/4 + Q_air_internal + Q_wall_int_conv + Q_wall_int_cond - (Q_air_cond + Q_air_conv + Q_air_rad + Q_air_vent + Q_ground + Q_latent) + Q_bottle/4
+    T_air_new = T_air + np.clip(dt * Q_air_net / (thermal_mass_mid), -MAX_T_FLUC, MAX_T_FLUC)
 
     if (abs(T_top-T_top_new) == MAX_T_FLUC or abs(T_air-T_air_new) == MAX_T_FLUC) and not is_unstable:
-        is_unstable = True
-        print(f"{date}: UNSTABLE SOLUTION")
+        # is_unstable = True
+        # print(f"{date}: UNSTABLE SOLUTION")
+        pass
 
 
 
@@ -235,6 +246,7 @@ def update_cycle(T_ext, T_top, T_air,
         "T_top_new": T_top_new,
         "Q_air_net": Q_air_net,
         "T_air_new": T_air_new,
+        "thermal_mass_top": thermal_mass_top
     }
 
 

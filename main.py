@@ -15,20 +15,20 @@ from analysis.RMSE import rmse_for_validation
 from analysis.normal_crop_yield import normal_crop_yield
 
 
-# file_path = "data/data/2023.csv" # load in data
+# file_path = "data/suticollo/2023.csv" # load in data
 # weather_data = compile_nrel_data(file_path)
 # T_init = weather_data["temperature"][0] #init temp
 # RH_init = weather_data["humidity"][0] #init temp
-# simulated_data, _, _ = run_simulation(weather_data, T_init, T_init, RH_init, 3600, "suticollo_opt1.json") # full year simulation
+# simulated_data, _, _ = run_simulation(weather_data, T_init, T_init, RH_init, "Lettuce", 3600, "raqay_default.json") # full year simulation
 
 
 
 # selected_day = "2023-01-01" # select specific day
 # single_day = simulated_data[simulated_data["time"].dt.strftime('%Y-%m-%d') == selected_day]
 
-#plot_temperature(single_day, selected_day)
-#plot_monthly_hourly_means(simulated_data, "Feb")
-#run_viewer(simulated_data)
+# plot_temperature(single_day, selected_day)
+# plot_monthly_hourly_means(simulated_data, "Feb")
+# run_viewer(simulated_data)
 
 
 # app = QApplication(sys.argv)
@@ -42,22 +42,22 @@ from analysis.normal_crop_yield import normal_crop_yield
 # # plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-15")
 
 
-# opt_params, data = optimize_params()
-# data = validate_simulation("data/validate_data/")
+#opt_params, data = optimize_params()
+data = validate_simulation("data/validate_data/")
 
-# print(rmse_for_validation(data))
+print(rmse_for_validation(data))
 
-# for date in ["2025-02-11", "2025-02-12", "2025-02-13","2025-02-14", "2025-02-15", "2025-02-16", "2025-02-17", "2025-02-18", "2025-02-19"]:
-#    plot_parameters(data, ["GH_T_air", "GH_T_top", "GH_T_ground", "GH_T_wall_ext", "GH_T_wall_int", "air_temp", "outside_temp", "top_temp"], date)
-#    daily_data = data[data["time"].dt.date == pd.to_datetime(date).date()]
-#    print(rmse_for_validation(daily_data))
-
-
-# plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-12")
+for date in ["2025-02-11", "2025-02-12", "2025-02-13","2025-02-14", "2025-02-15", "2025-02-16", "2025-02-17", "2025-02-18", "2025-02-19"]:
+   plot_parameters(data, ["GH_T_air", "GH_T_top", "GH_T_ground", "GH_T_wall_ext", "GH_T_wall_int", "air_temp", "outside_temp", "top_temp"], date)
+   daily_data = data[data["time"].dt.date == pd.to_datetime(date).date()]
+   print(rmse_for_validation(daily_data))
 
 
-# param_file = "greenhouse_setups/suticollo_opt1.json"
-# run_visualizer(param_file, data)
+plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-12")
+
+
+param_file = "greenhouse_setups/suticollo_opt1.json"
+run_visualizer(param_file, data)
 
 
 #simulate suticollo house in raqaypampa
@@ -78,40 +78,62 @@ from analysis.normal_crop_yield import normal_crop_yield
 # crop_yield, total_crop = normal_crop_yield("data/raqaypampa/2023.csv", crop)
 # print(crop_yield, total_crop)
 
-# b_param = optimize_greenhouse_design("2023", crop)
+# b_param = optimize_greenhouse_design("2023", crop, "cycle")
 # _, cycles, crop_yield = simulate_greenhouse_raqaypampa("2023", crop, None, b_param)
 # print(b_param)
 
-# import json
 
-# save_values = {}
+save_values = {}
+years = [2023,2022,2021,2020,2019]
 
-# for optimizing in ["crop_mass", "cycle", "Minmax"]:
-#    save_values[optimizing] = {}
-#    for crop in ["Lettuce", "Tomato", "Potato", "Maize", "Cassava", "Carrot", "Greenbean", "Chard", "Parsley", "Wheat", "Barley", "Beans", "Peas", "Squash", "Quinoa"]:
-#       save_values[optimizing][crop] = {}
+for optimizing in ["cycle", "crop_mass"]:
+   save_values[optimizing] = {}
+   for crop in ["Lettuce", "Tomato", "Potato", "Maize", "Cassava", "Carrot", "Greenbean", "Chard", "Parsley", "Wheat", "Barley", "Beans", "Peas", "Squash", "Quinoa"]:
+      save_values[optimizing][crop] = {}
 
-#       normal_cycles, total_crop_normal = normal_crop_yield("data/raqaypampa/2023.csv", crop)
-#       b_param = optimize_greenhouse_design("2023", crop, optimizing)
-#       _, cycles, crop_yield = simulate_greenhouse_raqaypampa("2023", crop, None, b_param)
+      normal_cycles, total_crop_normal = normal_crop_yield([f"data/raqaypampa/{year}.csv" for year in years], crop)
+      print(normal_cycles, total_crop_normal)
+      b_param = optimize_greenhouse_design(years, crop, optimizing)
+      _, cycles, crop_yield = simulate_greenhouse_raqaypampa(years, crop, None, b_param)
 
-#       save_values[optimizing][crop]["normal_cycles"] = normal_cycles
-#       save_values[optimizing][crop]["total_crop_normal"] = total_crop_normal
-#       save_values[optimizing][crop]["cycles"] = cycles
-#       save_values[optimizing][crop]["crop_yield"] = crop_yield
-#       save_values[optimizing][crop]["b_param"] = b_param
+      save_values[optimizing][crop]["normal_cycles"] = normal_cycles
+      save_values[optimizing][crop]["total_crop_normal"] = total_crop_normal
+      save_values[optimizing][crop]["cycles"] = cycles
+      save_values[optimizing][crop]["crop_yield"] = crop_yield
+      save_values[optimizing][crop]["b_param"] = b_param
 
-#       print(save_values)
-#       with open('opt.json', 'w') as f:
-#          json.dump(save_values, f)
+      print(save_values)
+      with open('opt_tis11_2023_2019.json', 'w') as f:
+         json.dump(save_values, f, indent=4)
 
-# print(save_values)
+print(save_values)
 
-for crop in ["Lettuce", "Tomato", "Potato", "Maize", "Cassava", "Carrot", "Greenbean", "Chard", "Parsley", "Wheat", "Barley", "Beans", "Peas", "Squash", "Quinoa"]:
-   normal_cycles, total_crop_normal = normal_crop_yield("data/raqaypampa/2023.csv", crop)
-   print(normal_cycles, total_crop_normal)
+# for crop in ["Lettuce", "Tomato", "Potato", "Maize", "Cassava", "Carrot", "Greenbean", "Chard", "Parsley", "Wheat", "Barley", "Beans", "Peas", "Squash", "Quinoa"]:
+#    normal_cycles, total_crop_normal = normal_crop_yield("data/raqaypampa/2023.csv", crop)
+#    print(normal_cycles, total_crop_normal)
 
 
+
+
+# with open("opt.json", "r") as file:
+#     data = json.load(file)
+
+# # Select crop
+# selected_crop = "Maize" 
+# profile = "raqay_default2.json"
+
+# # Extract b_param
+# b_param = next((category[selected_crop]["b_param"] for category in data.values() if selected_crop in category), None)
+# simulated_data, cycles, crop_yield = simulate_greenhouse_raqaypampa("2023", selected_crop, profile, b_param)
+
+# print(crop_yield, cycles)
+# normal_cycles, total_crop_normal = normal_crop_yield("data/raqaypampa/2023.csv", selected_crop)
+# print(normal_cycles, total_crop_normal)
+
+# selected_day = "2023-05-16"
+# single_day = simulated_data[simulated_data["time"].dt.strftime('%Y-%m-%d') == selected_day]
+# plot_temperature(single_day, selected_day)
+# plot_monthly_hourly_means(simulated_data, "Jun")
 
 
 # Tomato:

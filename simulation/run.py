@@ -79,8 +79,8 @@ def run_simulation(weather_data, T_air_init, T_top_init, RH_init, crop, dt, prof
             RH_air, RH_outside,  # humidity
             pressure,
 
-            old_rho_air, old_rho_air_top,
             400, 3,
+            old_rho_air, old_rho_air_top,
             
             dt, date, is_unstable, i, # Ventilation & Humidity
         )
@@ -94,6 +94,11 @@ def run_simulation(weather_data, T_air_init, T_top_init, RH_init, crop, dt, prof
         # Append the current values to their respective lists
         for key, value in variables.items():
             greenhouse_data[key].append(value)
+
+        if is_unstable:
+            cycles = 0
+            total_crop_mass = 0
+            return None, cycles, total_crop_mass
 
         GH_T_air.append(T_air)
         GH_T_bottle.append(T_bottle)
@@ -119,8 +124,6 @@ def run_simulation(weather_data, T_air_init, T_top_init, RH_init, crop, dt, prof
     cycles += TT/T_sum
     total_crop_mass += crop_mass
 
-    if is_unstable:
-        cycles = 0
-        total_crop_mass = 0
+    
 
     return weather_data, cycles, total_crop_mass

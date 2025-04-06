@@ -1,0 +1,456 @@
+{
+    "cycle": {
+        "Lettuce": {
+            "normal_cycles": 14.632182291666666,
+            "total_crop_normal": 2099.218070160848,
+            "cycles": 43.07086912089734,
+            "crop_yield": 1986.0556586010182,
+            "b_param": {
+                "nr_water_bottles": 31.360774638391696,
+                "bottles_percent_open": 0.8455435117209397,
+                "wall_thickness": 0.16280610680853597,
+                "gh_length": 3.3545066117288536,
+                "gh_width": 3.5753623336469413,
+                "gh_height": 1.5512863184812158,
+                "gh_roof_height": 0.23897963727025293
+            }
+        },
+        "Tomato": {
+            "normal_cycles": 5.4516454248366015,
+            "total_crop_normal": 1007.9224739305769,
+            "cycles": 14.396352201838438,
+            "crop_yield": 897.7760138570604,
+            "b_param": {
+                "nr_water_bottles": 37.86234893021481,
+                "bottles_percent_open": 0.9377419676104699,
+                "wall_thickness": 0.380820944838818,
+                "gh_length": 3.3950419389271054,
+                "gh_width": 3.856353082331307,
+                "gh_height": 1.562101569193751,
+                "gh_roof_height": 0.4810818139213719
+            }
+        },
+        "Potato": {
+            "normal_cycles": 7.107746621621621,
+            "total_crop_normal": 1014.3479015485882,
+            "cycles": 14.536553158844859,
+            "crop_yield": 1063.916259975004,
+            "b_param": {
+                "nr_water_bottles": 24.150709655345928,
+                "bottles_percent_open": 0.5732133707053183,
+                "wall_thickness": 0.4501142412669636,
+                "gh_length": 5.1320242569428665,
+                "gh_width": 3.620261529165956,
+                "gh_height": 1.5463184898255575,
+                "gh_roof_height": 0.4262654500776556
+            }
+        },
+        "Maize": {
+            "normal_cycles": 5.018806910569106,
+            "total_crop_normal": 964.1336670783005,
+            "cycles": 16.08950481155802,
+            "crop_yield": 989.5899288706728,
+            "b_param": {
+                "nr_water_bottles": 0.9402139061439314,
+                "bottles_percent_open": 0.942407992043291,
+                "wall_thickness": 0.17475494906945988,
+                "gh_length": 3.28815071160124,
+                "gh_width": 3.9947640585466546,
+                "gh_height": 1.6586405554619084,
+                "gh_roof_height": 0.38566974423073197
+            }
+        },
+        "Cassava": {
+            "normal_cycles": 0.6699575617283946,
+            "total_crop_normal": 252.8832749553953,
+            "cycles": 3.5830096286283255,
+            "crop_yield": 350.32186452812186,
+            "b_param": {
+                "nr_water_bottles": 10.030890269348053,
+                "bottles_percent_open": 0.3998440565651072,
+                "wall_thickness": 0.3330043984935734,
+                "gh_length": 3.9908657899290803,
+                "gh_width": 9.890306484243732,
+                "gh_height": 1.5002951696560989,
+                "gh_roof_height": 0.42840894550050307
+            }
+        },
+        "Carrot": {
+            "normal_cycles": 7.16008843537415,
+            "total_crop_normal": 886.3326778786518,
+            "cycles": 15.1918199184999,
+            "crop_yield": 856.741249543752,
+            "b_param": {
+                "nr_water_bottles": 15.121762501719033,
+                "bottles_percent_open": 0.29075486249403537,
+                "wall_thickness": 0.24971412097624263,
+                "gh_length": 3.087887145670437,
+                "gh_width": 7.234953502845898,
+                "gh_height": 1.5760994383644455,
+                "gh_roof_height": 0.47084481800495137
+            }
+        },
+        "Greenbean": {
+            "normal_cycles": 9.821833333333334,
+            "total_crop_normal": 4465.528439742366,
+            "cycles": 26.0,
+            "crop_yield": 3586.0311481822887,
+            "b_param": {
+                "nr_water_bottles": 39.91120701254264,
+                "bottles_percent_open": 0.8097673255914857,
+                "wall_thickness": 0.44978043339173196,
+                "gh_length": 3.2627659975859675,
+                "gh_width": 3.0,
+                "gh_height": 1.5,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Chard": {
+            "normal_cycles": 17.45801388888889,
+            "total_crop_normal": 2102.6401546829375,
+            "cycles": 46.0,
+            "crop_yield": 1508.0522168149307,
+            "b_param": {
+                "nr_water_bottles": 15.771025239669141,
+                "bottles_percent_open": 0.7805212229491645,
+                "wall_thickness": 0.5,
+                "gh_length": 3.0,
+                "gh_width": 3.0,
+                "gh_height": 1.5,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Parsley": {
+            "normal_cycles": 15.679775,
+            "total_crop_normal": 2189.221890571258,
+            "cycles": 35.11074146178321,
+            "crop_yield": 1828.388314287062,
+            "b_param": {
+                "nr_water_bottles": 19.83836987928276,
+                "bottles_percent_open": 0.6221376799730991,
+                "wall_thickness": 0.22153731547259695,
+                "gh_length": 4.792732836821916,
+                "gh_width": 4.585131995400633,
+                "gh_height": 1.6837654540439462,
+                "gh_roof_height": 0.49802268570388275
+            }
+        },
+        "Wheat": {
+            "normal_cycles": 11.40413601532567,
+            "total_crop_normal": 6813.89790104647,
+            "cycles": 20.401039391224813,
+            "crop_yield": 7079.067825849085,
+            "b_param": {
+                "nr_water_bottles": 11.340165436100158,
+                "bottles_percent_open": 0.9528500472292866,
+                "wall_thickness": 0.20529213797045925,
+                "gh_length": 3.605896172964688,
+                "gh_width": 4.382261090099405,
+                "gh_height": 1.7431776689810505,
+                "gh_roof_height": 0.4443091832109553
+            }
+        },
+        "Barley": {
+            "normal_cycles": 12.39938125,
+            "total_crop_normal": 6016.675117823388,
+            "cycles": 20.790062145557542,
+            "crop_yield": 5373.655102019311,
+            "b_param": {
+                "nr_water_bottles": 46.87191226322267,
+                "bottles_percent_open": 0.5165912654090372,
+                "wall_thickness": 0.1378889970067033,
+                "gh_length": 8.98831895497846,
+                "gh_width": 3.084443405916049,
+                "gh_height": 1.5364347148949005,
+                "gh_roof_height": 0.2735487486602435
+            }
+        },
+        "Beans": {
+            "normal_cycles": 7.726925925925926,
+            "total_crop_normal": 4215.309556944725,
+            "cycles": 20.939402963920912,
+            "crop_yield": 3894.7579686289428,
+            "b_param": {
+                "nr_water_bottles": 16.177286730574266,
+                "bottles_percent_open": 0.191355234236888,
+                "wall_thickness": 0.1881998808950664,
+                "gh_length": 5.903712679401873,
+                "gh_width": 3.4317090594975967,
+                "gh_height": 1.5078727630092916,
+                "gh_roof_height": 0.3973364592315789
+            }
+        },
+        "Peas": {
+            "normal_cycles": 10.613699494949495,
+            "total_crop_normal": 6183.003976619973,
+            "cycles": 32.0,
+            "crop_yield": 2621.0735149701277,
+            "b_param": {
+                "nr_water_bottles": 27.577112610218066,
+                "bottles_percent_open": 0.898160951411143,
+                "wall_thickness": 0.1583830671482473,
+                "gh_length": 3.2302756527722125,
+                "gh_width": 3.11792203976366,
+                "gh_height": 1.5,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Squash": {
+            "normal_cycles": 4.118085,
+            "total_crop_normal": 1224.2967200994296,
+            "cycles": 11.787078065004579,
+            "crop_yield": 1341.8994303559311,
+            "b_param": {
+                "nr_water_bottles": 31.56090382204294,
+                "bottles_percent_open": 0.9139530852636357,
+                "wall_thickness": 0.44052782360732146,
+                "gh_length": 4.9744260918690735,
+                "gh_width": 4.159152179415823,
+                "gh_height": 1.5179489017861099,
+                "gh_roof_height": 0.4154238777169124
+            }
+        },
+        "Quinoa": {
+            "normal_cycles": 9.623153409090909,
+            "total_crop_normal": 3657.875002825731,
+            "cycles": 19.25303270907064,
+            "crop_yield": 3071.0875306219505,
+            "b_param": {
+                "nr_water_bottles": 42.6720912630691,
+                "bottles_percent_open": 0.7738815674767513,
+                "wall_thickness": 0.33269621605673005,
+                "gh_length": 5.535200672652728,
+                "gh_width": 4.721331596495158,
+                "gh_height": 1.5,
+                "gh_roof_height": 0.5
+            }
+        }
+    },
+    "crop_mass": {
+        "Lettuce": {
+            "normal_cycles": 14.632182291666666,
+            "total_crop_normal": 2099.218070160848,
+            "cycles": 32.06089871753095,
+            "crop_yield": 2273.482282865006,
+            "b_param": {
+                "nr_water_bottles": 20.30590097335237,
+                "bottles_percent_open": 0.9558713744215146,
+                "wall_thickness": 0.30889135191424133,
+                "gh_length": 4.7154943053256275,
+                "gh_width": 3.6986466601188708,
+                "gh_height": 1.702229255092668,
+                "gh_roof_height": 0.39752934847887794
+            }
+        },
+        "Tomato": {
+            "normal_cycles": 5.4516454248366015,
+            "total_crop_normal": 1007.9224739305769,
+            "cycles": 10.288951390003119,
+            "crop_yield": 1073.7717191509569,
+            "b_param": {
+                "nr_water_bottles": 22.839403121384045,
+                "bottles_percent_open": 0.6683685618059462,
+                "wall_thickness": 0.5,
+                "gh_length": 3.6277966939836452,
+                "gh_width": 7.3770778049719805,
+                "gh_height": 1.6073121015701222,
+                "gh_roof_height": 0.4990141474460689
+            }
+        },
+        "Potato": {
+            "normal_cycles": 7.107746621621621,
+            "total_crop_normal": 1014.3479015485882,
+            "cycles": 12.762700669606362,
+            "crop_yield": 1089.719735079591,
+            "b_param": {
+                "nr_water_bottles": 0.7753458263345281,
+                "bottles_percent_open": 0.4899494441821647,
+                "wall_thickness": 0.31129815435324104,
+                "gh_length": 5.170630887382067,
+                "gh_width": 3.190290647823667,
+                "gh_height": 1.7998656126283648,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Maize": {
+            "normal_cycles": 5.018806910569106,
+            "total_crop_normal": 964.1336670783005,
+            "cycles": 13.713766353354675,
+            "crop_yield": 1050.425495221763,
+            "b_param": {
+                "nr_water_bottles": 4.266286897068691,
+                "bottles_percent_open": 0.25161506347363793,
+                "wall_thickness": 0.3772509904226771,
+                "gh_length": 4.505879985469574,
+                "gh_width": 9.184739188570724,
+                "gh_height": 1.5,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Cassava": {
+            "normal_cycles": 0.6699575617283946,
+            "total_crop_normal": 252.8832749553953,
+            "cycles": 4.349843197257906,
+            "crop_yield": 356.63991225339413,
+            "b_param": {
+                "nr_water_bottles": 39.478398311944076,
+                "bottles_percent_open": 0.3390533272565279,
+                "wall_thickness": 0.2810938951508072,
+                "gh_length": 4.764302062840675,
+                "gh_width": 5.902441680618093,
+                "gh_height": 1.542999251989792,
+                "gh_roof_height": 0.4738932707992384
+            }
+        },
+        "Carrot": {
+            "normal_cycles": 7.16008843537415,
+            "total_crop_normal": 886.3326778786518,
+            "cycles": 12.49228016294032,
+            "crop_yield": 941.2118427592931,
+            "b_param": {
+                "nr_water_bottles": 22.390995295461128,
+                "bottles_percent_open": 0.13270651667586328,
+                "wall_thickness": 0.45734898782411393,
+                "gh_length": 4.913486547911633,
+                "gh_width": 5.139111139053651,
+                "gh_height": 1.5451720050112792,
+                "gh_roof_height": 0.306990358393589
+            }
+        },
+        "Greenbean": {
+            "normal_cycles": 9.821833333333334,
+            "total_crop_normal": 4465.528439742366,
+            "cycles": 17.950849162688794,
+            "crop_yield": 4730.473987317902,
+            "b_param": {
+                "nr_water_bottles": 12.204621847815076,
+                "bottles_percent_open": 0.8763744138014017,
+                "wall_thickness": 0.4242824731616559,
+                "gh_length": 4.771538016936108,
+                "gh_width": 5.017791819835282,
+                "gh_height": 1.5389385528457282,
+                "gh_roof_height": 0.2748396932177536
+            }
+        },
+        "Chard": {
+            "normal_cycles": 17.45801388888889,
+            "total_crop_normal": 2102.6401546829375,
+            "cycles": 30.525963587219003,
+            "crop_yield": 2238.092125018596,
+            "b_param": {
+                "nr_water_bottles": 39.41262796487768,
+                "bottles_percent_open": 0.5425222739469706,
+                "wall_thickness": 0.49999883955863067,
+                "gh_length": 3.6338293898854963,
+                "gh_width": 3.8947410775289675,
+                "gh_height": 1.7744756440860727,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Parsley": {
+            "normal_cycles": 15.679775,
+            "total_crop_normal": 2189.221890571258,
+            "cycles": 26.520322881821578,
+            "crop_yield": 2309.2663859690047,
+            "b_param": {
+                "nr_water_bottles": 6.303839818381514,
+                "bottles_percent_open": 0.9634594613926701,
+                "wall_thickness": 0.499997825893901,
+                "gh_length": 3.0594751182204156,
+                "gh_width": 3.0,
+                "gh_height": 1.6539280407912564,
+                "gh_roof_height": 0.26744786802428877
+            }
+        },
+        "Wheat": {
+            "normal_cycles": 11.40413601532567,
+            "total_crop_normal": 6813.89790104647,
+            "cycles": 17.88073573990407,
+            "crop_yield": 7308.503353731863,
+            "b_param": {
+                "nr_water_bottles": 8.486890775201188,
+                "bottles_percent_open": 0.07387293762860471,
+                "wall_thickness": 0.48797571154303904,
+                "gh_length": 6.332476147540823,
+                "gh_width": 5.866753030829291,
+                "gh_height": 1.556571624557691,
+                "gh_roof_height": 0.4934135990033093
+            }
+        },
+        "Barley": {
+            "normal_cycles": 12.39938125,
+            "total_crop_normal": 6016.675117823388,
+            "cycles": 17.921345100572218,
+            "crop_yield": 6349.302531347183,
+            "b_param": {
+                "nr_water_bottles": 2.181892586769535,
+                "bottles_percent_open": 0.9070458766275714,
+                "wall_thickness": 0.5,
+                "gh_length": 3.000008810932047,
+                "gh_width": 3.0,
+                "gh_height": 1.736139117465654,
+                "gh_roof_height": 0.33420944657771573
+            }
+        },
+        "Beans": {
+            "normal_cycles": 7.726925925925926,
+            "total_crop_normal": 4215.309556944725,
+            "cycles": 15.459713388129444,
+            "crop_yield": 4525.2922593957865,
+            "b_param": {
+                "nr_water_bottles": 26.652630795344454,
+                "bottles_percent_open": 0.8586292938405884,
+                "wall_thickness": 0.4279918218728413,
+                "gh_length": 4.955284080517166,
+                "gh_width": 5.778812881228897,
+                "gh_height": 1.5683220116831587,
+                "gh_roof_height": 0.4075130897491695
+            }
+        },
+        "Peas": {
+            "normal_cycles": 10.613699494949495,
+            "total_crop_normal": 6183.003976619973,
+            "cycles": 17.139399110991228,
+            "crop_yield": 6520.798587958543,
+            "b_param": {
+                "nr_water_bottles": 31.41480604234573,
+                "bottles_percent_open": 0.08897647617960477,
+                "wall_thickness": 0.5,
+                "gh_length": 3.0,
+                "gh_width": 3.0,
+                "gh_height": 1.633475902521712,
+                "gh_roof_height": 0.25503873276819694
+            }
+        },
+        "Squash": {
+            "normal_cycles": 4.118085,
+            "total_crop_normal": 1224.2967200994296,
+            "cycles": 11.293089924572607,
+            "crop_yield": 1348.8533171810654,
+            "b_param": {
+                "nr_water_bottles": 22.280698455385448,
+                "bottles_percent_open": 0.12751521655913808,
+                "wall_thickness": 0.41891178080160046,
+                "gh_length": 10.0,
+                "gh_width": 3.996497899124174,
+                "gh_height": 1.5051261259971813,
+                "gh_roof_height": 0.5
+            }
+        },
+        "Quinoa": {
+            "normal_cycles": 9.623153409090909,
+            "total_crop_normal": 3657.875002825731,
+            "cycles": 14.319300983954236,
+            "crop_yield": 3835.5670665437715,
+            "b_param": {
+                "nr_water_bottles": 14.311555265471315,
+                "bottles_percent_open": 0.36227330456437934,
+                "wall_thickness": 0.47643371992253414,
+                "gh_length": 6.51899491384308,
+                "gh_width": 4.2516632122552664,
+                "gh_height": 1.6083098983512802,
+                "gh_roof_height": 0.3438838959570951
+            }
+        }
+    }
+}

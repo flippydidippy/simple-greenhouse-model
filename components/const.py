@@ -15,3 +15,5 @@ R_AIR = 287.05  # J/(kgK) for dry air
 R_WATER = 461.5  # J/(kgK) for water vapor
 
 BOTTLE_EVAP_RATE_HOLE = 0.0001 # evap rate through the hole of the bottles
+
+SOLAR_TO_AIR_RATIO = 0.2

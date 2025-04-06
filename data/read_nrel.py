@@ -32,3 +32,13 @@ def compile_nrel_data(file_path):
     #weather_data["pressure"] *= 100 # hPa to Pa
 
     return weather_data
+
+def compile_multiple_nrel_data(file_paths):
+    all_weather_data = []
+    
+    for file_path in file_paths:
+        yearly_data = compile_nrel_data(file_path)
+        all_weather_data.append(yearly_data)
+    
+    compiled_data = pd.concat(all_weather_data, ignore_index=True)
+    return compiled_data

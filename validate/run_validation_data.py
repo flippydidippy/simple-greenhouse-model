@@ -65,7 +65,8 @@ def validate_simulation(data_path, params_dict=None):
 
     simulated_data, cycles, crop_mass = run_simulation(merged_df, T_air_init, T_top_init, RH_init, "Lettuce", 3600, "suticollo_opt1.json", params_dict) # run sim
     #simulated_data.to_csv("data/raqaypampa/simulated_greenhouse_suticollo_2025.csv", index=False)
-
+    if simulated_data is None:
+        return None
 
     # compute difference
     simulated_data["difference"] = simulated_data["air_temp"] - simulated_data["GH_T_air"]

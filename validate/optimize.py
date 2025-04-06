@@ -16,10 +16,10 @@ def optimize_params():
     # Define parameter bounds for optimization (lower bound, upper bound)
     param_bounds = {
         #"h_conv": (20, 25),  # Convective heat transfer coefficient
-        "wall_solar_absorp_coef": (0, 0.2),  # Solar radiation absorption fraction
-        "roof_solar_absorp_coef": (0, 0.5),  # Solar radiation absorption fraction
-        "vent_rate": (0, 0.1),  # Air exchange rate
-        "top_vent_rate": (0, 0.1),
+        "wall_solar_absorp_coef": (0, 0.1),  # Solar radiation absorption fraction
+        "roof_solar_absorp_coef": (0, 0.1),  # Solar radiation absorption fraction
+        "vent_rate": (0, 200),  # Air exchange rate
+        "top_vent_rate": (0, 500),
         #"thermal_mass": (0, 10000),
         #"thermal_mass_top": (0, 10000)
         #"plant_transpiration_rate": (0.0001, 0.1),  # Transpiration effect on humidity
@@ -28,10 +28,11 @@ def optimize_params():
     }
     #init_guess = [20, 73, 5, 3]
     bounds = [param_bounds[key] for key in param_bounds.keys()]
+    init = [0.0037950539151742763, 0.02989982239804348, 0.001188492642564501, 0.014613692598368415]
 
 
     # run opt
-    result = differential_evolution(objective_function, bounds, strategy="best1bin", popsize=30, tol=0.001)
+    result = differential_evolution(objective_function, bounds, x0=init, strategy="best1bin", popsize=30, tol=0.001)
 
     # params extract
     optimal_params = {list(param_bounds.keys())[i]: result.x[i] for i in range(len(result.x))}
@@ -62,9 +63,15 @@ def objective_function(param_values):
 
     recorded_data_path = "data/validate_data/"  
     validated_results = validate_simulation(recorded_data_path, param_dict) # run
-    rmse = rmse_for_validation(validated_results)
+    if validated_results is None:
+        print(f"Tried Parameters: {param_dict}, RMSE: -") 
 
-    print(f"Trying Parameters: {param_dict}, RMSE: {rmse:.4f}")
+        return 1000000
+    
+
+    rmse = rmse_for_validation(validated_results)
+    print(f"Trying Parameters: {param_dict}, RMSE: {rmse:.4f}") 
+
 
     # date = "2025-02-12"
     # if rmse < 10:

@@ -7,10 +7,14 @@ from greenhouse_setups.params import update_all_params
 from components.crop_model import compute_crop_growth
 from crops.retrieve_dict import get_crop_dict
 from components.const import RHO_AIR
-from data.read_nrel import compile_nrel_data
+from data.read_nrel import compile_nrel_data, compile_multiple_nrel_data
 
 def normal_crop_yield(file_path, crop):
-    weather_data = compile_nrel_data(file_path)
+    
+    if isinstance(file_path, list):
+        weather_data = compile_multiple_nrel_data(file_path)
+    else:
+        weather_data = compile_nrel_data(file_path)
     
     #T_base, T_opt, RUE, ideal_RH, RH_sensitivity, GDD_maturity, CO2_rsponse = get_crop_dict(crop)
     T_sum, HI, I50A, I50B, T_base, T_opt, RUE, I50maxH, I50maxW, T_heat, T_extreme, SCO2, S_water = get_crop_dict(crop)
