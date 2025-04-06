@@ -23,7 +23,7 @@
 
     "wall_solar_absorp_coef": 0.04918389874,
     "wall_conductivity": 0.33,
-    "wall_thickness": 0.0005,
+    "wall_thickness": 0.001,
     "wall_emissivity": 0.3,
     "wall_cp": 1900,
     "wall_rho": 920, 
@@ -31,7 +31,7 @@
 
     "roof_solar_absorp_coef": 0.38750169827,
     "roof_conductivity": 0.33,
-    "roof_thickness": 0.0005,
+    "roof_thickness": 0.001,
     "roof_emissivity": 0.9,
     "roof_cp": 1500,
     "roof_rho": 1000

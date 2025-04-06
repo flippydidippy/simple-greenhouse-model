@@ -16,8 +16,8 @@ def optimize_params():
     # Define parameter bounds for optimization (lower bound, upper bound)
     param_bounds = {
         #"h_conv": (20, 25),  # Convective heat transfer coefficient
-        "wall_solar_absorp_coef": (0, 0.1),  # Solar radiation absorption fraction
-        "roof_solar_absorp_coef": (0, 0.1),  # Solar radiation absorption fraction
+        "wall_solar_absorp_coef": (0, 10),  # Solar radiation absorption fraction
+        "roof_solar_absorp_coef": (0, 10),  # Solar radiation absorption fraction
         "vent_rate": (0, 200),  # Air exchange rate
         "top_vent_rate": (0, 500),
         #"thermal_mass": (0, 10000),

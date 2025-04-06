@@ -42,7 +42,7 @@ from analysis.normal_crop_yield import normal_crop_yield
 # # plot_parameters(data, ["humidity", "GH_humidity"], "2025-02-15")
 
 
-#opt_params, data = optimize_params()
+opt_params, data = optimize_params()
 data = validate_simulation("data/validate_data/")
 
 print(rmse_for_validation(data))

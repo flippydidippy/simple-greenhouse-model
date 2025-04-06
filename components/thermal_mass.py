@@ -11,7 +11,7 @@ def thermal_mass_calc(rho_air, cp_air, cp_water,
     #thermal mass through RH
     P_atm = P_atm
     P_sat = P_sat_calc(T_air)/100
-    M_water_vapor = max((RH / 100) * (0.622 * (P_sat / (P_atm - P_sat))) * M_air/6, 0)
+    M_water_vapor = max((RH / 100) * (0.622 * (P_sat / (P_atm - P_sat))) * M_air, 0)
     M_RH = M_water_vapor * cp_water  # Water vapor thermal mass contribution
 
     M_walls = wall_area * wall_thickness * wall_density * wall_cp #walls thermal mass

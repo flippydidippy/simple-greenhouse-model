@@ -45,10 +45,10 @@ def update_cycle(T_ext, T_top, T_air,
 
     H_absolute = absolute_humidity(T_air, RH_air)
     cp_air = np.clip(CP_AIR + (H_absolute * 1860), CP_AIR*0.8, CP_AIR*1.2)
-    cp_water = np.clip(cp_water_calc(T_bottle), CP_WATER*0.95, CP_WATER*1.05)
-    rho_air = np.clip(rho_air_calc(pressure, T_air, RH_air),  RHO_AIR*0.2, RHO_AIR*1.8)
+    cp_water = np.clip(cp_water_calc(T_bottle), CP_WATER*0.98, CP_WATER*1.02)
+    rho_air = np.clip(rho_air_calc(pressure, T_air, RH_air),  RHO_AIR*0.8, RHO_AIR*1.2)
 
-    rho_air_top = np.clip(rho_air_calc(pressure, T_top, RH_air), RHO_AIR*0.2, RHO_AIR*1.8)
+    rho_air_top = np.clip(rho_air_calc(pressure, T_top, RH_air), RHO_AIR*0.8, RHO_AIR*1.2)
 
     # if abs(rho_air - old_rho_air) > MAX_RHO_AIR_FLUC:
     #     rho_air = abs(rho_air - old_rho_air)/2
@@ -58,8 +58,8 @@ def update_cycle(T_ext, T_top, T_air,
 
     thermal_mass_soil = thermal_mass_calc(0, 0, 0, 0, 0, 0, 0, 0, ground_area, soil_depth, soil_density, soil_cp, 0, 0, 0, 0)
     thermal_mass_mid = thermal_mass_calc(rho_air, cp_air, cp_water, volume, wall_area, wall_thickness, wall_rho, wall_cp, 0, 0, 0, 0, tot_water_mass, RH_air, T_air, pressure)
-    thermal_mass_wall = thermal_mass_calc(0, 0, 0, 0, wall_area, wall_thickness, wall_rho, wall_cp, 0, 0, 0, 0, 0, 0, 0, 0)
-    thermal_mass_top = thermal_mass_calc(rho_air_top, cp_air, cp_water, volume, wall_area, wall_thickness, wall_rho, wall_cp, 0,  0, 0, 0, tot_water_mass, RH_air, T_top, pressure)
+    thermal_mass_wall = thermal_mass_calc(rho_air_top, cp_air, cp_water, volume, wall_area, wall_thickness, wall_rho, wall_cp, 0, 0, 0, 0, 0, 0, 0, 0)
+    thermal_mass_top = thermal_mass_calc(0, 0, 0, 0, wall_area, wall_thickness, wall_rho, wall_cp, 0,  0, 0, 0, tot_water_mass, RH_air, T_top, pressure)
 
 
 
@@ -84,39 +84,70 @@ def update_cycle(T_ext, T_top, T_air,
 
     #### WALLS
     # External heat transfer (outside wall surface)
-    Q_wall_solar = max(solar_rad_calc(solar*(1000000/dt), wall_solar_absorp_coef, wall_area),0) #* np.sin(np.radians(solar_angle))  # Solar absorption
-    Q_wall_rad_ext = radiation_loss_calc(T_wall_ext, T_ext, wall_emissivity, wall_area)  # Radiation loss to sky
+    Q_wall_solar = max(solar_rad_calc(solar, wall_solar_absorp_coef, wall_area/2), 0) #* np.sin(np.radians(solar_angle))  # Solar absorption
+    Q_wall_ext_rad = radiation_loss_calc(T_wall_ext, T_ext, wall_emissivity, wall_area)  # Radiation loss to sky
     Q_wall_ext_conv = convection(T_wall_ext, T_ext, wall_conductivity, wall_area)  # Convection with external air
     Q_wall_ext_cond = conduction_calc(T_wall_ext, T_wall_int, wall_conductivity, wall_thickness, wall_area)  # Conduction from exterior to interior
 
     # Internal heat transfer (between interior wall surface and greenhouse air)
     Q_wall_int_conv = convection(T_wall_int, T_air, wall_conductivity, wall_area)  # Convection with interior air
     Q_wall_int_cond = conduction_calc(T_wall_int, T_air, wall_conductivity, wall_thickness, wall_area)  # Conduction from interior surface to air
+    Q_wall_int_rad = radiation_loss_calc(T_wall_int, T_air, wall_emissivity, wall_area)
 
 
-    if wall_thickness < 0.005:
-        Q_net_ext = Q_wall_solar + Q_wall_ext_conv - Q_wall_rad_ext - Q_wall_int_conv - Q_wall_int_cond
+
+    if wall_thickness < 0.01:
+        Q_net_ext = 0
+
+        # Q_net_ext = (Q_wall_solar + Q_wall_ext_conv - Q_wall_ext_rad - Q_wall_int_conv - Q_wall_int_cond - Q_wall_int_rad)
         Q_net_int = Q_net_ext
-        T_wall_ext_new = T_wall_ext + (Q_net_ext) / thermal_mass_wall
+        # T_wall_ext_new = T_wall_ext + np.clip((dt*Q_net_ext) / (thermal_mass_wall), -MAX_T_FLUC, MAX_T_FLUC)
+        T_wall_ext_new = T_air
         T_wall_int_new = T_wall_ext_new
     
     else:
         # Net heat flux for external and internal wall surfaces
-        Q_net_ext = Q_wall_solar + Q_wall_ext_conv - (Q_wall_rad_ext + Q_wall_ext_cond)
-        Q_net_int = Q_wall_ext_cond - (Q_wall_int_conv + Q_wall_int_cond)
+        Q_net_ext = Q_wall_solar + Q_wall_ext_conv - (Q_wall_ext_rad + Q_wall_ext_cond)
+        Q_net_int = Q_wall_ext_cond - (Q_wall_int_conv + Q_wall_int_cond + Q_wall_int_rad)
 
         # Update temperatures using wall thermal mass
-        T_wall_ext_new = T_wall_ext + (Q_net_ext * dt) / thermal_mass_wall
-        T_wall_int_new = T_wall_int + (Q_net_int * dt) / thermal_mass_wall
+        T_wall_ext_new = T_wall_ext + np.clip((dt*Q_net_ext) / (thermal_mass_wall), -MAX_T_FLUC, MAX_T_FLUC)
+        T_wall_int_new = T_wall_int + np.clip((dt*Q_net_int) / (thermal_mass_wall), -MAX_T_FLUC, MAX_T_FLUC)
 
     
 
     #### TOP TEMP. BODY
-    Q_top_solar = max(solar_rad_calc(solar*(1000000/dt), roof_solar_absorp_coef, roof_area) * np.cos(np.radians(solar_angle)), 0)  # Fixed projection
-    Q_top_cond = conduction_calc(T_top, T_ext, roof_conductivity, roof_thickness, roof_area)  # Roof conduction
+        #### AGROFILM ROOF / TOP TEMP. BODY
+    # --- New Agrofilm Model ---
+    # Separate the solar radiation into transmitted and absorbed parts.
+    # Typical values for agrofilm: transmittance tau ~ 0.9, absorption alpha ~ 0.05.
+    tau = 0.9
+    alpha = 0.05
+
+    Q_solar_transmitted = solar * tau * roof_area
+    Q_solar_absorbed = solar * alpha * roof_area
+
+    # Compute the agrofilm (roof film) temperature T_film via its energy balance.
+    # The film has very low mass: mass_film = density_film * roof_area * roof_thickness.
+    # For polyethylene, density_film ~ 920 kg/m^3, and roof_thickness must be in meters (e.g., 0.00015 m).
+    density_film = 920  # kg/m^3 (adjust as needed)
+    mass_film = density_film * roof_area * roof_thickness
+    cp_film = 1900  # J/kg·K (typical for polyethylene)
+
+    # Thermal losses from the film:
+    Q_film_cond = conduction_calc(T_top, T_air, roof_conductivity, roof_thickness, roof_area)
+    Q_film_conv = convection(T_top, T_air, roof_conductivity, roof_area)
+    Q_film_rad = radiation_loss_calc(T_top, T_ext, roof_emissivity, roof_area)
+    # Total film energy change (absorbed solar minus losses)
+    Q_film_net = Q_solar_absorbed - (Q_film_cond + Q_film_conv + Q_film_rad)
+    # Update film temperature (note: dt in seconds)
+    T_film_new = T_top + np.clip((dt * Q_film_net) / (mass_film * cp_film), -MAX_T_FLUC, MAX_T_FLUC)
+    # Use transmitted radiation as additional heat gain to the greenhouse top zone.
+    Q_top_solar = Q_solar_transmitted
+    Q_top_cond = conduction_calc(T_top, T_ext, roof_conductivity, roof_thickness, roof_area)/500  # Roof conduction
     Q_top_conv = convection(T_top, T_ext, roof_conductivity, roof_area)  # Roof convection with outside air
     Q_top_rad = radiation_loss_calc(T_top, T_ext, roof_emissivity, roof_area)  # Radiation loss to sky
-    Q_top_vent = ventilation_loss(T_top, T_ext, cp_air, rho_air_top, top_vent_rate*(1000000/dt), roof_volume)
+    Q_top_vent = ventilation_loss(T_top, T_ext, cp_air, rho_air_top, top_vent_rate, roof_volume)
 
     Q_roof_int_conv = convection(T_top, T_air, roof_conductivity, roof_area)  # Internal convection
     Q_roof_int_rad = radiation_loss_calc(T_top, T_air, roof_emissivity, roof_area)  # Internal radiation
@@ -134,7 +165,7 @@ def update_cycle(T_ext, T_top, T_air,
     Q_air_cond = conduction_calc(T_air, T_ext, wall_conductivity, wall_thickness, wall_area)
     Q_air_conv = convection(T_air, T_ext, wall_conductivity, wall_area)
     Q_air_rad = radiation_loss_calc(T_air, T_ext, wall_emissivity, wall_area)
-    Q_air_vent = ventilation_loss(T_air, T_ext, cp_air, rho_air, vent_rate*(1000000/dt), volume)
+    Q_air_vent = ventilation_loss(T_air, T_ext, cp_air, rho_air, vent_rate, volume)
 
     # Internal exchange with walls and roof
     Q_air_internal = convection(T_air, T_top, h_conv, roof_area + wall_area)
@@ -147,7 +178,7 @@ def update_cycle(T_ext, T_top, T_air,
 
     #### CROPS
     OPEN_BOTTLE_EXPOSED_RATIO = 0.0001
-    RH_air_new = np.clip(compute_humidity_change(T_air, RH_air, T_ext, RH_ext, vent_rate*dt, plant_transpiration_rate, T_ground, solar, 0.2, T_wall_int, 0.01, wall_area+roof_area, T_bottle, tot_bottle_area*bottles_percent_open*OPEN_BOTTLE_EXPOSED_RATIO), 0.5, 100)
+    RH_air_new = np.clip(compute_humidity_change(T_air, RH_air, T_ext, RH_ext, vent_rate, plant_transpiration_rate, T_ground, solar, 0.2, T_wall_int, 0.01, wall_area+roof_area, T_bottle, tot_bottle_area*bottles_percent_open*OPEN_BOTTLE_EXPOSED_RATIO), 0.5, 100)
     Q_latent = latent_calc(plant_transpiration_rate, RH_air, T_air)
     #cond = condensation(0.5, 0.1, 2000, 1700)
 
@@ -213,9 +244,11 @@ def update_cycle(T_ext, T_top, T_air,
         "T_ext": T_ext,
         "Q_wall_solar": Q_wall_solar,
         "Q_wall_ext_conv": Q_wall_ext_conv,
-        "Q_wall_rad_ext": Q_wall_rad_ext,
+        "Q_wall_rad_ext": Q_wall_ext_rad,
         "Q_wall_ext_cond": Q_wall_ext_cond,
         "Q_wall_int_conv": Q_wall_int_conv,
+        "Q_wall_int_rad": Q_wall_int_rad,
+        "Q_wall_ext_rad": Q_wall_ext_rad,
         "Q_net_ext": Q_net_ext,
         "Q_net_int": Q_net_int,
         "T_wall_ext_new": T_wall_ext_new,
@@ -246,7 +279,9 @@ def update_cycle(T_ext, T_top, T_air,
         "T_top_new": T_top_new,
         "Q_air_net": Q_air_net,
         "T_air_new": T_air_new,
-        "thermal_mass_top": thermal_mass_top
+        "thermal_mass_top": thermal_mass_top,
+        "thermal_mass_mid": thermal_mass_mid,
+        "thermal_mass_wall": thermal_mass_wall
     }
 
 
